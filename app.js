@@ -9,6 +9,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 app.get('/api/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+        let resObj = JSON.parse(data)
+        console.log(resObj['records'])
+        res.send(resObj['records'])
+    });
 });
 
 app.post('/api/notes', async (req, res) => {
@@ -16,8 +21,8 @@ app.post('/api/notes', async (req, res) => {
     fs.readFile('./db/db.json', 'utf-8', (err, data) => {
         let recordObj = JSON.parse(data)
         recordObj['records'].push(thisRecord)
-        console.log(JSON.stringify(recordObj))
-        console.log()
+        let dataToWrite = JSON.stringify(recordObj)
+        fs.writeFileSync('./db/db.json', dataToWrite)
     });
     res.end()
 });
