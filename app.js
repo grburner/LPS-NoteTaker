@@ -17,9 +17,9 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', async (req, res) => {
-    let thisRecord = { "title": req.body.title, "text": req.body.text, "id": 1 }
     fs.readFile('./db/db.json', 'utf-8', (err, data) => {
         let recordObj = JSON.parse(data)
+        let thisRecord = { "title": req.body.title, "text": req.body.text, "id": getLastId(recordObj['records'])}
         recordObj['records'].push(thisRecord)
         let dataToWrite = JSON.stringify(recordObj)
         fs.writeFileSync('./db/db.json', dataToWrite)
@@ -52,26 +52,7 @@ class NoteRecord{
     }
 }
 
-
-
-// let thisRecord = new NoteRecord(req.body.title, req.body.text, 1)
-// console.log(thisRecord.title, thisRecord.body)
-// let toWrite = []
-// fs.readFile('./db/db.json', 'utf-8', (err, data) => {
-//     if (err) throw err;
-//     if (!data) {
-//         console.log('into if')
-//         toWrite.push(thisRecord)
-//         console.log(toWrite)
-//         fs.writeFile('./db/db.json', toWrite, (err) => {
-//             if (err) throw err;
-//             console.log('file saved in if')
-//         })
-//     } else {
-//         fs.writeFile('./db/db.json', toWrite, (err) => {
-//             if (err) throw err;
-//             console.log('file saved in else')
-//     });
-// res.end()
-// };
-// });
+let getLastId = (json) => {
+    console.log(json.length + 1)
+    return json.length + 1
+}
