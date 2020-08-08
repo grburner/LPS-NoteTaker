@@ -28,7 +28,20 @@ app.post('/api/notes', async (req, res) => {
 });
 
 app.delete('/api/notes/:id', (req, res) => {
-    res.send('<h1>your at API</h1>')
+    fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+        let recordObj = JSON.parse(data)
+        let splicePos 
+        for ( i = 0; i < recordObj.records.length; i++ ) {
+            if ( parseInt(req.params.id) === recordObj.records[i].id ) {
+                splicePos = i 
+            }
+        }
+        recordObj.records.splice(splicePos, 1)
+        fs.writeFile('./db/db.json', JSON.stringify(recordObj), 'utf-8', (err) => {
+            if (err) throw err;
+            console.log('file saved')
+        });
+    });
 });
 
 app.get('/', (req, res) => {
