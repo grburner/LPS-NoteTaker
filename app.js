@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -54,8 +55,8 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/notes.html'))
 })
 
-app.listen(3000, () => {
-    console.log('The app is running on localhost:3000')
+app.listen(PORT, () => {
+    console.log('The app is running')
 });
 
 let getLastId = (json) => {
