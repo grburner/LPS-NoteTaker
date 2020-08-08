@@ -42,6 +42,7 @@ app.delete('/api/notes/:id', (req, res) => {
             console.log('file saved')
         });
     });
+    res.end()
 });
 
 app.get('/', (req, res) => {
@@ -56,14 +57,6 @@ app.get('/notes', (req, res) => {
 app.listen(3000, () => {
     console.log('The app is running on localhost:3000')
 });
-
-class NoteRecord{
-    constructor(title, body, id) {
-        this.title = title,
-        this.body = body,
-        this.id = id
-    }
-}
 
 let getLastId = (json) => {
     console.log(json.length + 1)
